@@ -5,19 +5,28 @@ export async function getShoes() {
     }
   });
   
-  console.log('Response:', await KV.text()); // Debug
-  return await KV.json();
+  const data = await KV.text();
+  return JSON.parse(data);
 }
 
 export default async function Home() {
-  const shoes = await getShoes();
-
-  return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Comparateur de Chaussures</h1>
-      <div className="bg-gray-100 p-4 rounded">
-        <pre>{JSON.stringify(shoes, null, 2)}</pre>
-      </div>
-    </main>
-  );
+  try {
+    const shoes = await getShoes();
+    return (
+      <main className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Comparateur de Chaussures</h1>
+        <div className="bg-gray-100 p-4 rounded">
+          <pre>{JSON.stringify(shoes, null, 2)}</pre>
+        </div>
+      </main>
+    );
+  } catch (error) {
+    console.error('Error:', error);
+    return (
+      <main className="p-4">
+        <h1>Erreur de chargement</h1>
+        <p>{error.message}</p>
+      </main>
+    );
+  }
 }
