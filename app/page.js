@@ -4,6 +4,8 @@ export async function getShoes() {
       'Authorization': `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
     }
   });
+  
+  console.log('Response:', await KV.text()); // Debug
   return await KV.json();
 }
 
@@ -12,8 +14,10 @@ export default async function Home() {
 
   return (
     <main className="p-4">
-      <h1>Comparateur de Chaussures</h1>
-      <pre>{JSON.stringify(shoes, null, 2)}</pre>
+      <h1 className="text-2xl font-bold mb-4">Comparateur de Chaussures</h1>
+      <div className="bg-gray-100 p-4 rounded">
+        <pre>{JSON.stringify(shoes, null, 2)}</pre>
+      </div>
     </main>
   );
 }
